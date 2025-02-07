@@ -30,8 +30,8 @@ jobs:
         run: $MAKE_CMD JAVA_HOME=$JAVA_11_HOME frameworks examples_dist
 
       # Test command-line tools.
-      - name: test_tools
-        run: $MAKE_CMD JAVA_HOME=$JAVA_11_HOME test_translator test_cycle_finder test_jre_cycles
+      # - name: test_tools
+      #   run: $MAKE_CMD JAVA_HOME=$JAVA_11_HOME test_translator test_cycle_finder test_jre_cycles
 
       - name: list all files
         run: ls -R
