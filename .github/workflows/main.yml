@@ -7,7 +7,7 @@ on:
       tag:
         description: "Tag to build"
         required: true
-        default: "2.8"
+        default: "3.0.0"
 
 jobs:
   build:
