@@ -1,13 +1,13 @@
 name: CI
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to build"
+        required: true
+        default: "2.8"
 
 jobs:
   build:
@@ -19,14 +19,19 @@ jobs:
     steps:
       - name: java_11_env
         run: echo "JAVA_11_HOME=$(/usr/libexec/java_home -v 11)" >> $GITHUB_ENV
-      
+
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.tag }}
 
       # Build everything but protobuf targets, which require that the public
       # protobuf distribution be installed.
       - name: build_all
         run: $MAKE_CMD JAVA_HOME=$JAVA_11_HOME frameworks examples_dist
-      
+
       # Test command-line tools.
       - name: test_tools
         run: $MAKE_CMD JAVA_HOME=$JAVA_11_HOME test_translator test_cycle_finder test_jre_cycles
+
+      - name: list all files
+        run: ls -R
