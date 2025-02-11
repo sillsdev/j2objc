@@ -22,8 +22,11 @@ jobs:
     steps:
       - name: Setup docker
         run: |
-          brew install docker colima
-          colima start
+          HOMEBREW_NO_AUTO_UPDATE=1 brew install --cask docker
+          sudo "/Applications/Docker.app/Contents/MacOS/Docker Desktop" --unattended --install-privileged-components
+          open -a /Applications/Docker.app --args --unattended --accept-license
+          echo "We are waiting for Docker to be up and running. It can take over 2 minutes..."
+          while ! /Applications/Docker.app/Contents/Resources/bin/docker info &>/dev/null; do sleep 1; done
 
       - name: java_11_env
         run: echo "JAVA_11_HOME=$(/usr/libexec/java_home -v 11)" >> $GITHUB_ENV
